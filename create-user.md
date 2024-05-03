@@ -1,0 +1,75 @@
+useradd wilder 
+
+root@58abbe19d184:/# cat /etc/passwd | grep "wilder"
+wilder:x:1000:1000::/home/wilder:/bin/sh
+
+
+root@58abbe19d184:/# usermod -g wilder wilder
+root@58abbe19d184:/# groups wilder
+wilder : wilder
+
+root@58abbe19d184:/# id wilder
+uid=1000(wilder) gid=1000(wilder) groups=1000(wilder)
+root@58abbe19d184:/# mkdir /home/share
+
+root@58abbe19d184:/# mkdir /home/wilder
+root@58abbe19d184:/# chown wilder:wilder /home/share
+root@58abbe19d184:/# chgrp -R wilder /home/share  
+root@58abbe19d184:/# chmod -R g+rwX  /home/share
+root@58abbe19d184:/# chown 700 /home/share 
+root@58abbe19d184:/# su -l wilder
+$ whoami
+$ pwd
+/home/wilder
+$ exit
+root@58abbe19d184:/# 
+root@58abbe19d184:/# chown wilder:wilder /home/share
+root@58abbe19d184:/# su -l wilder
+$ touch /home^C
+$ cd /home/share
+$ touch passwords.txt
+$ whoami
+wilder
+$ ls -l 
+total 0
+-rw-r--r-- 1 root   root   0 May  3 07:50  passwords.txt
+-rw-rw-r-- 1 wilder wilder 0 May  3 07:57 ''$'\303''passwords.txt'
+
+$ exit
+root@58abbe19d184:/# 
+root@58abbe19d184:/# groupadd share
+root@58abbe19d184:/# getent group | grep "wilder"
+wilder:x:1000:
+root@58abbe19d184:/# getent group | grep "share"
+share:x:1001:
+root@58abbe19d184:/# usermod -a -G share wilder
+
+root@58abbe19d184:/# whoami
+root
+root@58abbe19d184:/# usermod -a -G share root 
+
+root@58abbe19d184:/#  chown :share /home/share
+root@58abbe19d184:/# chmod g+rw /home/share
+root@58abbe19d184:/# chmod -R g+rw /home/share
+
+root@58abbe19d184:/# su -l wilder
+
+$ openssl enc -aes-256-cbc -in passwords.txt -out yourfile_encrypted.txt
+enter aes-256-cbc encryption password:
+Verifying - enter aes-256-cbc encryption password:
+*** WARNING : deprecated key derivation used.
+Using -iter or -pbkdf2 would be better.
+$ ls
+ file.enc   passwords.txt   yourfile_encrypted.txt  ''$'\303''passwords.txt'
+$ cat yourfile_encrypted.txt
+Salted__CӖ𤐦s�SN�U�M�j��x�b�A$ 
+exit
+
+sudo nano /etc/issue.net
+
+
+# Container deleted, before verification of below 
+sudo nano /home/wilder/.bashrc
+echo "Welcome to your session, wilder! Your message goes here."
+
+
